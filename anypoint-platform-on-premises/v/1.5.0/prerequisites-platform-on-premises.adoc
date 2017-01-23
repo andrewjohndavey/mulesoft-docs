@@ -247,22 +247,6 @@ sudo systemctl enable var-lib-gravity.mount
 sudo systemctl start var-lib-gravity.mount
 ----
 
-=== Etcd device
-
-The main purpose of the etcd device is to provide dedicated storage for a distributed database used for cluster coordination. It does not require much space, 20GB should be enough.
-
-This device will be formatted either as `xfs` or `ext4` and mounted as `/var/lib/gravity/planet/etcd`. You can use the following shell snippet to guide this process (be sure to specify the correct device name in 2 places):
-
-----
-sudo mkfs.ext4 /dev/<device name>
-sudo mkdir -p /var/lib/gravity/planet/etcd
-echo -e "[Mount]\nWhat=/dev/<device name>\nWhere=/var/lib/gravity/planet/etcd\nType=ext4\n[Install]\nWantedBy=local-fs.target" | sudo tee /etc/systemd/system/var-lib-gravity-planet-etcd.mount
-sudo systemctl daemon-reload
-sudo systemctl enable var-lib-gravity-planet-etcd.mount
-sudo systemctl start var-lib-gravity-planet-etcd.mount
-----
-
-
 === Anypoint application data device
 
 The main purpose of applicaiton data directory is storing application configuration and data. The amount of space required should be at minimum 250GB, but might vary depending on your specific usecase. It is important to estimate the minimum size requirements and allocate enough space as a dedicated device ahead of time.
@@ -285,6 +269,22 @@ This device is used by Docker’s Device Mapper storage driver.
 Unless specified, Docker configuration defaults to the use of Device Mapper in loopback mode (using /dev/loopX devices) which is not recommended for production. To configure Docker to use a dedicated device for Device Mapper storage driver, an unformatted device (or a partition) (i.e. /dev/sdd) can be provided during installation. This directory will be automatically configured and set up for use.
 
 Unformatted devices potentially usable for system directory / Device Mapper are automatically discovered by agents running on each node. Discovered devices are offered on a drop-down menu for configuration before the installation is started.
+
+=== Etcd device
+
+The main purpose of the etcd device is to provide dedicated storage for a distributed database used for cluster coordination. It does not require much space, 20GB should be enough.
+
+This device will be formatted either as `xfs` or `ext4` and mounted as `/var/lib/gravity/planet/etcd`. You can use the following shell snippet to guide this process (be sure to specify the correct device name in 2 places):
+
+----
+sudo mkfs.ext4 /dev/<device name>
+sudo mkdir -p /var/lib/gravity/planet/etcd
+echo -e "[Mount]\nWhat=/dev/<device name>\nWhere=/var/lib/gravity/planet/etcd\nType=ext4\n[Install]\nWantedBy=local-fs.target" | sudo tee /etc/systemd/system/var-lib-gravity-planet-etcd.mount
+sudo systemctl daemon-reload
+sudo systemctl enable var-lib-gravity-planet-etcd.mount
+sudo systemctl start var-lib-gravity-planet-etcd.mount
+----
+
 
 [TIP]
 ====
