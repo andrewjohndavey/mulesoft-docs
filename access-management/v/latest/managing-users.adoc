@@ -286,7 +286,7 @@ image:external-identity-4640a.png[]
 |User by Username | The search filter to find users by username | `(&(objectClass=inetOrgPerson)(uid={{username}}))`
 |User by Email | The search filter to find users by email  | `(&(objectClass=inetOrgPerson)(mail={{email}}))`
 |Group by GroupName | The search filter to find groups by groupName | `(&(objectClass=groupOfNames)(cn={{groupName}}))`
-|User's Groups by Username | The searh filter to find user's groups by userName | `(&objectClass=GroupOfNames)(member=uid={{username}},ou=people,dc=mulesoft,dc=com))`
+|User's Groups by Username | The searh filter to find user's groups by userName | `(&(objectClass=GroupOfNames)(member=uid={{username}},ou=people,dc=mulesoft,dc=com))`
 |===
 +
 . Map the User fields
